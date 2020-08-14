@@ -1,5 +1,8 @@
 from rest_framework import serializers
-from medstore.models import Company, CompanyBank
+from medstore.models import Company, CompanyBank, EmployeeBank
+from medstore.models import CustomerRequest, CompanyAccount, Bill, BillDetails
+from medstore.models import Employee, EmployeeSalary
+from medstore.models import Medicine, MedicalDetails, Customer
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -17,3 +20,92 @@ class CompanyBankSerializer(serializers.ModelSerializer):
         response = super().to_representation(instance)
         response['company'] = CompanySerializer(instance.company_id).data
         return response
+
+
+class MedicineSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Medicine
+        fields = "__all__"
+
+        def to_representation(self, instance):
+            response = super().to_representation(instance)
+            response['company'] = CompanySerializer(instance.company_id).data
+            return response
+
+
+class MedicalDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MedicalDetails
+        fields = "__all__"
+
+        def to_representation(self, instance):
+            response = super().to_representation(instance)
+            response['medicine'] = MedicineSerializer(instance.medicine_id).data
+
+
+class EmployeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = "__all__"
+
+
+class CustomerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        fields = "__all__"
+
+
+class BillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bill
+        fields = "__all__"
+
+        def to_representation(self, instance):
+            response = super().to_representation(instance)
+            response['customer'] = CustomerSerializer(instance.customer_id).data
+
+
+class EmployeeSalarySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmployeeSalary
+        fields = "__all__"
+
+        def to_representation(self, instance):
+            response = super().to_representation(instance)
+            response['employee'] = EmployeeSerializer(instance.employee_id).data
+
+
+class BillDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BillDetails
+        fields = "__all__"
+
+        def to_representation(self, instance):
+            response = super().to_representation(instance)
+            response['bill'] = BillSerializer(instance.bill_id).data
+
+
+class CustomerRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomerRequest
+        fields = "__all__"
+
+
+class CompanyAccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CompanyAccount
+        fields = "__all__"
+
+        def to_representation(self, instance):
+            response = super().to_representation(instance)
+            response['company'] = CompanySerializer(instance.company_id).data
+
+
+class EmployeeBankSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmployeeBank
+        fields = "__all__"
+
+        def to_representation(self, instance):
+            response = super().to_representation(instance)
+            response['employee'] = EmployeeSerializer(instance.employee_id).data
