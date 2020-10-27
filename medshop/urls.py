@@ -23,6 +23,7 @@ from medstore.views import CompanyNameViewset
 router = routers.DefaultRouter()
 router.register("company", views.CompanyViewset, basename="company")
 router.register("companybank", views.CompanyBankViewset, basename="companybank")
+router.register("medicine", views.MedicineViewset, basename="medicine")
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),

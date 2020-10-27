@@ -43,6 +43,12 @@ class MedicalDetailsSerializer(serializers.ModelSerializer):
             response['medicine'] = MedicineSerializer(instance.medicine_id).data
 
 
+class MedicalDetailsSerializerSimple(serializers.ModelSerializer):
+    class Meta:
+        model = MedicalDetails
+        fields = "__all__"
+
+
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
